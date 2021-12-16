@@ -1,4 +1,4 @@
-package main
+package httplogger
 
 import "github.com/jptosso/coraza-waf/v2/loggers"
 
