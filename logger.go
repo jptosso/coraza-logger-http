@@ -62,6 +62,7 @@ func (l *httpLogger) start() {
 				case al := <-l.queue:
 					if err := l.writeHttp(al); err != nil {
 						// back to the queue by now
+						// TODO we don't have access to any error logger :(
 						l.queue <- al
 					}
 				case <-l.stop:

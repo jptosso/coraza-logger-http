@@ -8,7 +8,6 @@ import (
 	"github.com/jptosso/coraza-waf/v2"
 	"github.com/jptosso/coraza-waf/v2/loggers"
 	"github.com/jptosso/coraza-waf/v2/seclang"
-	"github.com/jptosso/coraza-waf/v2/types"
 )
 
 func TestPlugin(t *testing.T) {
@@ -18,13 +17,13 @@ func TestPlugin(t *testing.T) {
 	parser, _ := seclang.NewParser(waf)
 	if err := parser.FromString(`
 		SecAction "id:1,phase:1,auditlog,log"
+		SecAuditLogType http
+		SecAuditLogFormat json
+		SecAuditLog http://127.0.0.1:9200/coraza/audit/_create
+		SecAuditEngine On
 	`); err != nil {
 		t.Fatal(err)
 	}
-	waf.AuditEngine = types.AuditEngineOn
-	waf.AuditLog = "http://127.0.0.1:9200/coraza/audit/_create"
-	waf.AuditLogType = "http"
-	waf.AuditLogFormat = "json"
 	if err := waf.UpdateAuditLogger(); err != nil {
 		t.Error(err)
 	}
